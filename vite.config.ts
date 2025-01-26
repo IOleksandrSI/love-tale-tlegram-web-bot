@@ -1,7 +1,11 @@
-import {defineConfig, loadEnv} from 'vite';
+import {ConfigEnv, defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react'
 
-export default ({mode}) => {
+export default ((config: ConfigEnv) => {
+  const { mode } = config;
+
+  console.log(process);
+
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
 
   return defineConfig({
@@ -12,4 +16,4 @@ export default ({mode}) => {
       port: Number(process.env.VITE_PORT)
     }
   })
-}
+})
