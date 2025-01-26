@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default ((config: ConfigEnv) => {
   const { mode } = config;
-  
+
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
 
   return defineConfig({

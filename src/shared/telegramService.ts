@@ -1,1 +1,1 @@
-export const telegramService = window.Telegram.WebApp;
+// export const telegramService = window.Telegram.WebApp;
