@@ -19,9 +19,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "compilerOptions": {
-      "types": ["node"]
-    }
+    "types": ["node"],
   },
   "include": ["vite.config.ts"]
 }
