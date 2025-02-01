@@ -23,5 +23,8 @@
     "noUncheckedSideEffectImports": true,
     "types": ["node"]
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "node_modules/@types/telegram-web-app/index.d.ts"
+  ]
 }
