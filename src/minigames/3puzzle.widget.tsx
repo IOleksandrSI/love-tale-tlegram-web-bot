@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
-import heart1 from "../../assets/heart_piece_1.jpg";
-import heart2 from "../../assets/heart_piece_2.jpg";
-import heart3 from "../../assets/heart_piece_3.jpg";
-import heart4 from "../../assets/heart_piece_4.jpg";
+import heart1 from "../assets/heartGame/image_part_001.jpg";
+import heart2 from "../assets/heartGame/image_part_002.jpg";
+import heart3 from "../assets/heartGame/image_part_003.jpg";
+import heart4 from "../assets/heartGame/image_part_004.jpg";
+import heart5 from "../assets/heartGame/image_part_005.jpg";
+import heart6 from "../assets/heartGame/image_part_006.jpg";
+import heart7 from "../assets/heartGame/image_part_007.jpg";
+import heart8 from "../assets/heartGame/image_part_008.jpg";
+import heart9 from "../assets/heartGame/image_part_009.jpg";
 
 // React DnD
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { TouchBackend } from "react-dnd-touch-backend";
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 
 export interface IPuzzleHeartGame {
   submit: () => Promise<void>;
@@ -114,18 +122,20 @@ const Slot: React.FC<SlotProps> = ({ slot, pieceImg, onDropPiece }) => {
 };
 
 // ---------------------- ГОЛОВНИЙ КОМПОНЕНТ ----------------------
-export default function PuzzleHeartGame ({submit}: IPuzzleHeartGame){
+export default function PuzzleHeartGame (){
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   // Початкові 9 шматків (id=1..9)
   const [pieces] = useState<PuzzlePiece[]>(() => [
     { id: 1, img: heart1, correctSlotId: 1 },
     { id: 2, img: heart2, correctSlotId: 2 },
     { id: 3, img: heart3, correctSlotId: 3 },
     { id: 4, img: heart4, correctSlotId: 4 },
-    { id: 5, img: heart1, correctSlotId: 5 },
-    { id: 6, img: heart2, correctSlotId: 6 },
-    { id: 7, img: heart3, correctSlotId: 7 },
-    { id: 8, img: heart4, correctSlotId: 8 },
-    { id: 9, img: heart1, correctSlotId: 9 },
+    { id: 5, img: heart5, correctSlotId: 5 },
+    { id: 6, img: heart6, correctSlotId: 6 },
+    { id: 7, img: heart7, correctSlotId: 7 },
+    { id: 8, img: heart8, correctSlotId: 8 },
+    { id: 9, img: heart9, correctSlotId: 9 },
   ]);
 
   const [isPuzzleComplete, setIsPuzzleComplete] = useState<boolean>(false);
@@ -152,10 +162,11 @@ export default function PuzzleHeartGame ({submit}: IPuzzleHeartGame){
   useEffect(() => {
     if (isPuzzleComplete) {
       (async () => {
-        await submit();
+        if (id)
+          await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.PUZZLE_3 }))
       })();
     }
-  }, [isPuzzleComplete]);
+  }, [isPuzzleComplete, id, dispatch]);
 
   // Коли drag&drop поклав pieceId у slotId
   const handleDropPiece = (pieceId: number, slotId: number) => {

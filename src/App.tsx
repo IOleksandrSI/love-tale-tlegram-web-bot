@@ -1,30 +1,60 @@
 import './App.css';
 import { Provider as ChakraProvider } from './components/provider.tsx';
-// import GardenChanceWidget from './widgets/game6/gardenChance.widget.tsx';
-// import LoveQuestChatWidget from './widgets/quest.widget.tsx';
-// import PuzzleHeart from './widgets/game3/puzzle.widget.tsx';
-// import WayWidget from './widgets/game4/way.widget.tsx';
-// import { MagicWidget } from './widgets/game5/magic.widget.tsx';
-// import ChessGame from './widgets/chessGame.widget.tsx';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from './shared/hooks/redux.hooks.ts';
+import { fetchUser } from './features/user/userSlice.ts';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Navbar from './components/custom/navbar.component.tsx';
+import RomanticLoader from './components/custom/loader.component.tsx';
+import { GameConfig } from './shared/configs/game.config.ts';
 import { telegramService } from './shared/telegramService.ts';
-import { Box, Code } from '@chakra-ui/react';
+
+const HomePage = lazy(() => import('./pages/homePage/home.page.tsx'));
+const ProfilePage = lazy(() => import('./pages/profile.page.tsx'));
+const ShopPage = lazy(() => import('./pages/shop.page.tsx'));
+const NotFoundPage = lazy(() => import('./pages/notFound.page.tsx'));
+const MapPage = lazy(() => import('./pages/map.page.tsx'));
+
+// games
 
 
 function App() {
+  const dispatch = useAppDispatch();
+
+  const { availableChapters } = useAppSelector((state) => state.user);
+
+  const [id, setId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (id)
+      dispatch(fetchUser(id));
+  }, [dispatch, id]);
+
+
   useEffect(() => {
     telegramService.ready();
+    setId(telegramService?.initDataUnsafe?.user?.id || null);
   }, []);
 
 
   return (
     <ChakraProvider>
-      test 1;
-      <Box>
-        <Code>
-          {JSON.stringify(telegramService)}
-        </Code>
-      </Box>
+      <BrowserRouter>
+        <Navbar />
+        <Suspense fallback={<RomanticLoader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/map" element={<MapPage />} />
+            {availableChapters.map((c, index) => {
+              const config = GameConfig[c];
+              return (<Route key={`game-${index}`} path={config.url} element={<config.Page />} />)
+              })}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
     </ChakraProvider>
   );
 }

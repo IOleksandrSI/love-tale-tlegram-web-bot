@@ -5,10 +5,9 @@ import {
   Button,
   Text,
 } from "@chakra-ui/react";
-
-export interface ILoveQuestChatWidget {
-  submit: () => Promise<void>;
-}
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 
 /** Тип одного варіанта вибору */
 interface Choice {
@@ -322,7 +321,9 @@ function getEndingId(chosenPath: string[]): string {
  * LoveQuestChatWidget:
  * Віджет із 8 кроками й 4 фіналами, без дублювання першого повідомлення.
  */
-function LoveQuestChatWidget ({ submit }: ILoveQuestChatWidget) {
+function LoveQuestChatWidget () {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   // Поточний крок: починаємо з 1
   const [currentStepId, setCurrentStepId] = useState<number>(1);
   // Обрані варіанти (на випадок, якщо знадобиться)
@@ -380,7 +381,8 @@ function LoveQuestChatWidget ({ submit }: ILoveQuestChatWidget) {
       if (endData) {
         pushKohanaMessage(`**${endData.title}**\n\n${endData.description.trim()}`);
       }
-      await submit();
+      if (id)
+        await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.QUEST_2 }))
       return;
     }
 

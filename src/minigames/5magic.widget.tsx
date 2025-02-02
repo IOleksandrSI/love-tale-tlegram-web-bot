@@ -1,4 +1,7 @@
 import { useState, FC } from 'react';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 
 /** Тип для ключів */
 type ScoreKey = "calm" | "confidence" | "dreams" | "forgiveness";
@@ -6,17 +9,15 @@ type ScoreKey = "calm" | "confidence" | "dreams" | "forgiveness";
 /** Тип для об'єкта з балами */
 type Scores = Record<ScoreKey, number>;
 
-export interface IMagicWidget {
-  submit?: () => Promise<void>
-}
-
 /**
  * ГОЛОВНИЙ КОМПОНЕНТ "MagicWidget"
  * ---------------------------------
  * Містить усю логіку переходів між "екранами" (Welcome, HallOfCalmness, ...)
  * та фінального екрану (FinalScreen).
  */
-export const MagicWidget: FC<IMagicWidget> = ({ submit }) => {
+const MagicWidget: FC = () => {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   // Стан, що зберігає поточний "екран" (0..5)
   const [stage, setStage] = useState<number>(0);
 
@@ -31,8 +32,8 @@ export const MagicWidget: FC<IMagicWidget> = ({ submit }) => {
   // Перехід на наступний "екран"
   const nextStage = async () => {
     setStage((prev) => prev + 1);
-    if (stage && stage === 4 && submit) {
-      await submit();
+    if (stage && stage === 4 && id) {
+      await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.MAGIC_5 }))
     }
   };
 
@@ -113,6 +114,8 @@ export const MagicWidget: FC<IMagicWidget> = ({ submit }) => {
     </div>
   );
 };
+
+export default MagicWidget;
 
 /* -----------------------------------------------------------------------------
    КОМПОНЕНТИ ЕКРАНІВ (Welcome, HallOfCalmness, ...)

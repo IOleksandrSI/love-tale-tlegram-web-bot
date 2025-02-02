@@ -6,12 +6,20 @@ import {
   Button,
   VStack,
 } from "@chakra-ui/react";
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 
-export const WeddingProposalWidget: React.FC = () => {
-  // Стан для збереження відповіді (yes/no/null)
+const WeddingProposalWidget: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   const [answer, setAnswer] = useState<"yes" | "no" | null>(null);
 
-  const handleYes = () => setAnswer("yes");
+  const handleYes = async () => {
+    setAnswer('yes');
+    if (id)
+      await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.WEDDING_PROPOSITION_7 }))
+  };
   const handleNo = () => setAnswer("no");
 
   return (
@@ -110,3 +118,5 @@ export const WeddingProposalWidget: React.FC = () => {
     </Box>
   );
 };
+
+export default WeddingProposalWidget;

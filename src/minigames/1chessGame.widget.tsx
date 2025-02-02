@@ -6,11 +6,10 @@ import { Alert, Icon, IconButton } from '@chakra-ui/react';
 import { GoHeartFill } from 'react-icons/go';
 import { SlActionUndo } from 'react-icons/sl';
 import Steps from '../components/custom/custtomSteps.tsx';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
 
-
-export interface IChessGame {
-  submit: () => Promise<void>;
-}
 
 // ---------------------------------------------------------------------
 // Налаштування сценарію
@@ -127,7 +126,9 @@ const INFO_TEXT = 'Механіка: оберіть правильний деб�
 // ---------------------------------------------------------------------
 // Компонент
 // ---------------------------------------------------------------------
-export default function ChessGameWidget({ submit }: IChessGame ) {
+export default function ChessGameWidget() {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   const [game, setGame] = useState(new Chess(setupBoard));
 
   // Який крок (з масиву mainLine) зараз відпрацьовуємо
@@ -280,7 +281,8 @@ export default function ChessGameWidget({ submit }: IChessGame ) {
       } else {
         setAlertStatus('finish');
         setIsLockedGame(true);
-        await submit();
+        if (id)
+          await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.CHESS_GAME_1 }))
       }
     }, 500);
   }

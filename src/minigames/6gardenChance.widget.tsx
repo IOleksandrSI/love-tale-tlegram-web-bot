@@ -9,6 +9,9 @@ import {
   Alert,
   useDisclosure,
 } from "@chakra-ui/react";
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
 
 /**
  * Тип для опису рослин (квіток чи бур’янів).
@@ -23,6 +26,8 @@ interface Plant {
 }
 
 const GardenChanceWidget: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   // Початкові рослини: 3 квітки (символізують різні аспекти кохання), 2 бур’яни
   const [plants, setPlants] = useState<Plant[]>([
     {
@@ -76,6 +81,10 @@ const GardenChanceWidget: React.FC = () => {
     if (turnsLeft <= 0 && !isFinished) {
       setIsFinished(true);
       onOpen();
+      (async () => {
+        if (id)
+          await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.GARDEN_CHANCE_6 }))
+      })();
     }
   }, [turnsLeft, isFinished, onOpen]);
 

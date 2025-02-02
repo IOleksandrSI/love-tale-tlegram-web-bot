@@ -10,10 +10,9 @@ import {
 } from '@chakra-ui/react';
 import { useColorModeValue } from '../components/color-mode.tsx';
 import { ProgressRoot, ProgressBar } from '../components/progress.tsx';
-
-interface IWay {
-  submit?: () => Promise<void>;
-}
+import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
+import { doCompleteTask } from '../features/user/userSlice.ts';
+import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 
 /**
  * Структура кроку (етапу) гри.
@@ -32,8 +31,10 @@ interface GameStep {
   }[];
 }
 
-const WayWidget: FC<IWay> = ({ submit }) => {
+const WayWidget: FC = () => {
   // Зберігаємо три показники: Надію, Довіру та Серцевий біль.
+  const dispatch = useAppDispatch();
+  const { id } = useAppSelector((state) => state.user);
   const [hope, setHope] = useState(50);
   const [trust, setTrust] = useState(50);
   const [heartache, setHeartache] = useState(0);
@@ -378,9 +379,8 @@ const WayWidget: FC<IWay> = ({ submit }) => {
    * Викликаємо зовнішній onComplete() для переходу до іншої частини подарунка / наступної глави.
    */
   const handleFinish = async () => {
-    if (submit) {
-      await submit();
-    }
+    if (id)
+      await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.WAY_4 }))
   };
 
   /**

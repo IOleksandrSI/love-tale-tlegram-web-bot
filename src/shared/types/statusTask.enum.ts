@@ -1,0 +1,5 @@
+export enum StatusTask {
+  NOT_COMPLETED = 'NOT_COMPLETED',
+  COMPLETED = 'COMPLETED',
+  BLOCKED = 'BLOCKED',
+}
