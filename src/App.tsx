@@ -24,8 +24,10 @@ function App() {
   const { availableChapters } = useAppSelector((state) => state.user);
 
   const [id, setId] = useState<number | null>(null);
+  const [debug, setDebug] = useState<string>('');
 
   useEffect(() => {
+    setDebug(debug + `${id}|${telegramService}|`)
     if (id)
       dispatch(fetchUser(id));
   }, [dispatch, id]);
@@ -34,6 +36,7 @@ function App() {
   useEffect(() => {
     telegramService.ready();
     setId(telegramService?.initDataUnsafe?.user?.id || null);
+    setDebug(`${telegramService?.initDataUnsafe?.user?.id || null}|`)
   }, []);
 
 
@@ -41,6 +44,7 @@ function App() {
     <ChakraProvider>
       <BrowserRouter>
         <Navbar />
+        {debug}
         <Suspense fallback={<RomanticLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
