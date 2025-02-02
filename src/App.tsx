@@ -27,16 +27,17 @@ function App() {
   const [debug, setDebug] = useState<string>('');
 
   useEffect(() => {
-    setDebug(debug + `${id}|${telegramService}|`)
-    if (id)
-      dispatch(fetchUser(id));
+    if (id) {
+      try {
+        dispatch(fetchUser(id));
+      } catch (e) {setDebug(JSON.stringify(e));}
+    }
   }, [dispatch, id]);
 
 
   useEffect(() => {
     telegramService.ready();
     setId(telegramService?.initDataUnsafe?.user?.id || null);
-    setDebug(`${telegramService?.initDataUnsafe?.user?.id || null}|`)
   }, []);
 
 
@@ -53,8 +54,8 @@ function App() {
             <Route path="/map" element={<MapPage />} />
             {availableChapters.map((c, index) => {
               const config = GameConfig[c];
-              return (<Route key={`game-${index}`} path={config.url} element={<config.Page />} />)
-              })}
+              return (<Route key={`game-${index}`} path={config.url} element={<config.Page />} />);
+            })}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
