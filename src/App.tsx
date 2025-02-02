@@ -37,7 +37,7 @@ function App() {
 
   useEffect(() => {
     telegramService.ready();
-    setId(telegramService?.initDataUnsafe?.user?.id || null);
+    setId(telegramService?.initDataUnsafe?.user?.id || 256511152);
   }, []);
 
 
