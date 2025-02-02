@@ -1,4 +1,4 @@
-import{i as O,u as k,r as c,j as i,B as b,T as m,a as _,Z as j,C as w}from"./index-BtzxSjkc.js";import{V as C}from"./v-stack-CGfUFIum.js";const p=[{id:1,title:"Березень 2017: Початок почуттів",description:`
+import{i as O,u as k,r as c,j as i,B as b,T as m,a as _,Z as j,C as w}from"./index-CxAWvqmu.js";import{V as C}from"./v-stack-D2J5fe1G.js";const p=[{id:1,title:"Березень 2017: Початок почуттів",description:`
 Я — Кохання, щойно розквітла між вами.
 Ви наважилися зустрічатися, проте відчуваю в тобі
 легкий сумнів: чи щирий він?
