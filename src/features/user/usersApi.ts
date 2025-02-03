@@ -5,7 +5,7 @@ import { IUser } from '../../shared/interfaces/user.interface.ts';
 
 // Налаштування базового URL (залежить від вашого бекенду)
 const instance = axios.create({
-  baseURL: 'http://138.68.72.192:11006/api', // або ваш домен
+  baseURL: 'https://personal-site.my/api', // або ваш домен
 });
 
 // Типи DTO

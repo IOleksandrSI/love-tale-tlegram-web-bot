@@ -15,37 +15,29 @@ const ShopPage = lazy(() => import('./pages/shop.page.tsx'));
 const NotFoundPage = lazy(() => import('./pages/notFound.page.tsx'));
 const MapPage = lazy(() => import('./pages/map.page.tsx'));
 
-// games
-
-
 function App() {
   const dispatch = useAppDispatch();
 
   const { availableChapters } = useAppSelector((state) => state.user);
 
   const [id, setId] = useState<number | null>(null);
-  const [debug, setDebug] = useState<string>('');
 
   useEffect(() => {
-    if (id) {
-      try {
-        dispatch(fetchUser(id));
-      } catch (e) {setDebug(JSON.stringify(e));}
-    }
+    if (id)
+      dispatch(fetchUser(id));
   }, [dispatch, id]);
 
 
   useEffect(() => {
     telegramService.ready();
-    setId(telegramService?.initDataUnsafe?.user?.id || 256511152);
+    setId(telegramService?.initDataUnsafe?.user?.id || null);
   }, []);
 
 
   return (
     <ChakraProvider>
-      <BrowserRouter>
+      {id ? <BrowserRouter>
         <Navbar />
-        {debug}
         <Suspense fallback={<RomanticLoader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -59,7 +51,8 @@ function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Suspense>
-      </BrowserRouter>
+      </BrowserRouter> : <></>}
+
     </ChakraProvider>
   );
 }
