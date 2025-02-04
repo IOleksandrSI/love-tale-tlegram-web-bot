@@ -59,7 +59,6 @@ const ProfilePage: React.FC = () => {
         style={{ backgroundColor: '#f9f9f9' }}
       >
         <Avatar
-          name={firstName || userName}
           size="lg"
           src={telegramService?.initDataUnsafe?.user?.photo_url || undefined}
           mr={4}
