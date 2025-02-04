@@ -7,6 +7,7 @@ import { TitleEnum } from '../shared/types/titles.enum.ts';
 import { Avatar } from '../components/avatar.tsx';
 import { DialogActionTrigger, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle } from '../components/dialog.tsx';
 import { GameConfig } from '../shared/configs/game.config.ts';
+import { telegramService } from '../shared/telegramService.ts';
 
 const ProfilePage: React.FC = () => {
   const user = useAppSelector((state) => state.user); // або будь-який ваш спосіб
@@ -60,6 +61,7 @@ const ProfilePage: React.FC = () => {
         <Avatar
           name={firstName || userName}
           size="lg"
+          src={telegramService?.initDataUnsafe?.user?.photo_url || undefined}
           mr={4}
         />
         <Box>
