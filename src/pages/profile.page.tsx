@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { Badge, Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
 import { useAppSelector } from '../shared/hooks/redux.hooks.ts';
-import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
 import { TitleConfig } from '../shared/configs/title.config.ts';
 import { TitleEnum } from '../shared/types/titles.enum.ts';
 import { Avatar } from '../components/avatar.tsx';
