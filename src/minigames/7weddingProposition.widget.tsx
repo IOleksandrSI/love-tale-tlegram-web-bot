@@ -89,13 +89,6 @@ const WeddingProposalWidget: React.FC = () => {
               Тепер наші серця об’єднані в одну велику казку.
               Нехай цей день стане початком найщасливішої історії.
             </Text>
-            <Button
-              p={3}
-              colorScheme="pink"
-              onClick={() => window.location.reload()}
-            >
-              Почати заново
-            </Button>
           </Box>
         )}
 
