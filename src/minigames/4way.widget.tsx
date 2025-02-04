@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   Box,
   Heading,
@@ -49,7 +49,7 @@ const WayWidget: FC = () => {
   const [isFinished, setIsFinished] = useState(false);
 
   // Колір фону залежно від режиму (light/dark)
-  const bg = useColorModeValue('gray.100', 'gray.700');
+  const bg = useColorModeValue('gray.100', 'gray.100');
 
   /**
    * Масив із кроками гри.
@@ -375,13 +375,11 @@ const WayWidget: FC = () => {
     setIsFinished(false);
   };
 
-  /**
-   * Викликаємо зовнішній onComplete() для переходу до іншої частини подарунка / наступної глави.
-   */
-  const handleFinish = async () => {
-    if (id)
-      await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.WAY_4 }))
-  };
+  useEffect(() => {
+    if (id) {
+      (async() => await dispatch(doCompleteTask({ chatId: id ,chapter: ChaptersEnum.WAY_4 })))()
+    }
+  }, [isFinished]);
 
   /**
    * Маленька утилітна функція, щоб зберігати значення в межах 0..100.
@@ -452,9 +450,11 @@ const WayWidget: FC = () => {
                     option.outcome
                   )
                 }
+                p={7}
                 colorScheme="blue"
                 variant="outline"
-                style={{ backgroundColor: '#0895c2', color: 'white' }}
+                disabled={!!outcomeText}
+                style={{ backgroundColor: '#0895c2', color: 'white', wordBreak: 'break-word', whiteSpace: 'pre-line', borderRadius: '15px'  }}
               >
                 {option.text}
               </Button>
@@ -463,7 +463,7 @@ const WayWidget: FC = () => {
 
           {/* Відображення результату вибору */}
           {outcomeText && (
-            <Alert.Root status="info" variant="subtle" rounded="md" mb={3}>
+            <Alert.Root status="info" variant="subtle" rounded="md" mb={3} p={3}>
               <Alert.Indicator />
               <Alert.Content flex="1">
                 <Alert.Title>Результат дії:</Alert.Title>
@@ -479,13 +479,14 @@ const WayWidget: FC = () => {
               variant="outline"
               onClick={handleNextStep}
               disabled={!outcomeText}
+              p={3}
             >
               {currentStep < steps.length - 1
                 ? 'Наступний крок'
                 : 'Завершити главу'}
             </Button>
 
-            <Button variant="outline" style={{ backgroundColor: 'rgb(26, 26, 26)', color: 'white' }}  onClick={handleReset}>
+            <Button variant="outline" p={3} style={{ backgroundColor: 'rgb(26, 26, 26)', color: 'white' }}  onClick={handleReset}>
               Скинути все
             </Button>
           </HStack>
@@ -495,7 +496,7 @@ const WayWidget: FC = () => {
       {/* Фінал гри (підсумок) */}
       {isFinished && (
         <>
-          <Alert.Root status="success" variant="solid" mb={4}>
+          <Alert.Root status="success" variant="solid" mb={4} p={3}>
             <Alert.Indicator />
             <Alert.Content flex="1">
               <Alert.Title>Підсумок історії:</Alert.Title>
@@ -506,10 +507,7 @@ const WayWidget: FC = () => {
           </Alert.Root>
 
           <HStack p={4}>
-            <Button colorScheme="pink" style={{ backgroundColor: 'rgb(26, 26, 26)', color: 'white' }} onClick={handleFinish}>
-              Продовжити далі
-            </Button>
-            <Button variant="outline" style={{ backgroundColor: 'rgb(26, 26, 26)', color: 'white' }} onClick={handleReset}>
+            <Button p={3} variant="outline" style={{ backgroundColor: 'rgb(26, 26, 26)', color: 'white' }} onClick={handleReset}>
               Пройти заново
             </Button>
           </HStack>

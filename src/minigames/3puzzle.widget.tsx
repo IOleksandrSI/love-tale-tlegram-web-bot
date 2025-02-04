@@ -16,6 +16,8 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import { useAppDispatch, useAppSelector } from '../shared/hooks/redux.hooks.ts';
 import { doCompleteTask } from '../features/user/userSlice.ts';
 import { ChaptersEnum } from '../shared/types/chapters.enum.ts';
+import { Alert, Icon } from '@chakra-ui/react';
+import { GoHeartFill } from 'react-icons/go';
 
 export interface IPuzzleHeartGame {
   submit: () => Promise<void>;
@@ -208,6 +210,17 @@ export default function PuzzleHeartGame (){
           Перетягніть кожен квадратик у відповідне місце, щоб зібрати
           цілісне серце.
         </p>
+        {isPuzzleComplete ? <Alert.Root status="success" variant="solid" p="3" style={{ margin: '1rem 0' }}>
+          <Alert.Indicator>
+            <Icon as={GoHeartFill} />
+          </Alert.Indicator>
+          <Alert.Content>
+            <Alert.Title>Умнічка</Alert.Title>
+            <Alert.Description style={{ whiteSpace: 'pre-line' }}>
+              Ти справилася з цим випробування! Ти все ближче на крок до перемоги)) пишаюсь тобою
+            </Alert.Description>
+          </Alert.Content>
+        </Alert.Root> : <></>}
         <button style={styles.resetBtn} onClick={handleReset}>
           Скинути
         </button>

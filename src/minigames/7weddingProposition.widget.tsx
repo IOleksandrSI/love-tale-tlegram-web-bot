@@ -90,6 +90,7 @@ const WeddingProposalWidget: React.FC = () => {
               Нехай цей день стане початком найщасливішої історії.
             </Text>
             <Button
+              p={3}
               colorScheme="pink"
               onClick={() => window.location.reload()}
             >
@@ -106,6 +107,7 @@ const WeddingProposalWidget: React.FC = () => {
               бо всі були впевнені, що ти скажеш “Так”...
             </Text>
             <Button
+              p={3}
               variant="outline"
               colorScheme="pink"
               onClick={() => window.location.reload()}

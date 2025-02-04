@@ -7,7 +7,7 @@ import { FC, lazy } from 'react';
 
 const ChessGameWidget = lazy(() => import('../../minigames/1chessGame.widget.tsx'));
 const LoveQuestChatWidget = lazy(() => import('../../minigames/2quest.widget.tsx'));
-const PuzzleHeartGame = lazy(() => import('../../minigames/4way.widget.tsx'));
+const PuzzleHeartGame = lazy(() => import('../../minigames/3puzzle.widget.tsx'));
 const WayWidget = lazy(() => import('../../minigames/4way.widget.tsx'));
 const MagicWidget = lazy(() => import('../../minigames/5magic.widget.tsx'));
 const GardenChanceWidget = lazy(() => import('../../minigames/6gardenChance.widget.tsx'));

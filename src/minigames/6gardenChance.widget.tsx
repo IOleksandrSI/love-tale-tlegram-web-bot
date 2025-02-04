@@ -258,7 +258,7 @@ const GardenChanceWidget: React.FC = () => {
 
       {/* Якщо ходи закінчились */}
       {isFinished && (
-        <Alert.Root status="info" variant="subtle" mt={6}>
+        <Alert.Root status="info" variant="subtle" mt={6} p={4}>
           <Alert.Indicator />
           <Alert.Content flex="1">
             <Alert.Title>Результат:</Alert.Title>

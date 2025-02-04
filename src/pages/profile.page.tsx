@@ -7,6 +7,7 @@ import { TitleConfig } from '../shared/configs/title.config.ts';
 import { TitleEnum } from '../shared/types/titles.enum.ts';
 import { Avatar } from '../components/avatar.tsx';
 import { DialogActionTrigger, DialogBody, DialogCloseTrigger, DialogContent, DialogFooter, DialogHeader, DialogRoot, DialogTitle } from '../components/dialog.tsx';
+import { GameConfig } from '../shared/configs/game.config.ts';
 
 const ProfilePage: React.FC = () => {
   const user = useAppSelector((state) => state.user); // або будь-який ваш спосіб
@@ -131,7 +132,7 @@ const ProfilePage: React.FC = () => {
                 fontWeight: 'bold',
               }}
             >
-              {ChaptersEnum[chapter]}
+              {GameConfig[chapter].chapterTitle}. {GameConfig[chapter].questName}
             </Badge>
           ))}
         </Flex>
